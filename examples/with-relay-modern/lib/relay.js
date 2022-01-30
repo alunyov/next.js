@@ -5,8 +5,8 @@ let relayEnvironment
 
 // Define a function that fetches the results of an operation (query/mutation/etc)
 // and returns its results as a Promise
-function fetchQuery(operation, variables, cacheConfig, uploadables) {
-  return fetch(process.env.NEXT_PUBLIC_RELAY_ENDPOINT, {
+function fetchQuery(operation, variables, cacheConfig, _uploadables) {
+  return fetch(process.env.GRAPHQL_ENDPOINT, {
     method: 'POST',
     headers: {
       Accept: 'application/json',

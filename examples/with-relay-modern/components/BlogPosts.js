@@ -5,7 +5,7 @@ const BlogPosts = ({ viewer }) => (
   <div>
     <h1>Blog posts</h1>
     <ul>
-      {viewer.allBlogPosts.edges.map(({ node }) => (
+      {viewer.allBlogPosts?.edges?.map(({ node }) => (
         <BlogPostPreview key={node.id} post={node} />
       ))}
     </ul>

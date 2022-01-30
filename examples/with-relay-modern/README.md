@@ -1,8 +1,6 @@
-# Relay Modern Example
+# Relay Example
 
-[Relay Modern](https://relay.dev/) is a new version of Relay designed from the ground up to be easier to use, more extensible and, most of all, able to improve performance on mobile devices. Relay Modern accomplishes this with static queries and ahead-of-time code generation.
-
-This example relies on [Prisma + Nexus](https://github.com/prisma-labs/nextjs-graphql-api-examples) for its GraphQL backend.
+[Relay](https://relay.dev/) TODO!
 
 ## Deploy your own
 
@@ -20,7 +18,7 @@ npx create-next-app --example with-relay-modern with-relay-modern-app
 yarn create next-app --example with-relay-modern with-relay-modern-app
 ```
 
-Download schema introspection data from configured Relay endpoint
+Generate schema introspection data from the code (see example `./lib/graphql.mjs`)
 
 ```bash
 npm run schema
