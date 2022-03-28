@@ -1,4 +1,5 @@
 import { createFragmentContainer, graphql } from 'react-relay'
+import styled from 'styled-components'
 import BlogPostPreview from './BlogPostPreview'
 
 const BlogPosts = ({ viewer }) => (
@@ -11,6 +12,25 @@ const BlogPosts = ({ viewer }) => (
     </ul>
   </div>
 )
+
+const Styled = styled.div`
+  display: flex;
+  cursor: unset;
+
+  :hover {
+    cursor: unset;
+  }
+
+  > * + * {
+    border-left: 0 !important;
+  }
+
+  div[data-nodeid] {
+    border-radius: 50%;
+    background-color: transparent;
+    border: 1px solid var(--text-color);
+  }
+`
 
 export default createFragmentContainer(BlogPosts, {
   viewer: graphql`

@@ -1,21 +1,23 @@
 {
   "private": true,
   "scripts": {
-    "dev": "next",
-    "build": "next build",
+    "next": "next",
+    "dev": "concurrently \"next\" \"relay-compiler --watch\"",
+    "build": "relay-compiler && next build",
     "start": "next start",
     "relay": "relay-compiler",
     "schema": "node ./schema/printSchema.mjs"
   },
   "dependencies": {
     "graphql": "^16.3.0",
-    "next": "12.0.11-canary.0",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-relay": "^13.0.0"
+    "next": "file:../../packages/next",
+    "react": "18.0.0-rc.0",
+    "react-dom": "18.0.0-rc.0",
+    "react-relay": "^13.1.1"
   },
   "devDependencies": {
-    "relay-compiler": "^13.0.0"
+    "concurrently": "7.0.0",
+    "relay-compiler": "^13.1.1"
   },
   "relay": {
     "src": "./",
