@@ -18,15 +18,5 @@
   "devDependencies": {
     "concurrently": "7.0.0",
     "relay-compiler": "^13.1.1"
-  },
-  "relay": {
-    "src": "./",
-    "schema": "./schema/schema.graphql",
-    "artifactDirectory": "./__generated__",
-    "excludes": [
-      "**/.next/**",
-      "**/node_modules/**",
-      "**/schema/**"
-    ]
   }
 }

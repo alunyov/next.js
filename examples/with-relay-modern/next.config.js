@@ -1,8 +1,10 @@
+const relay = require('./relay.config.json')
+
 module.exports = {
   compiler: {
     relay: {
-      src: './',
-      artifactDirectory: './__generated__',
+      src: relay.src,
+      artifactDirectory: relay.artifactDirectory,
     },
     externalDir: true,
   },

@@ -2,7 +2,6 @@ use once_cell::sync::Lazy;
 use regex::Regex;
 use serde::Deserialize;
 use std::path::{Path, PathBuf};
-use std::process::Command;
 use swc_atoms::JsWord;
 use swc_common::errors::HANDLER;
 use swc_common::FileName;
@@ -85,7 +84,6 @@ impl<'a> Fold for Relay<'a> {
 #[derive(Debug)]
 enum BuildRequirePathError {
     FileNameNotReal,
-    ArtifactDoesNotExist { path: String },
     ArtifactDirectoryExpected { file_name: String },
 }
 
@@ -102,33 +100,18 @@ impl<'a> Relay<'a> {
             }
         };
 
-        let path = if let Some(artifact_directory) = &self.config.artifact_directory {
-            self.root_dir.join(artifact_directory).join(filename)
+        if let Some(artifact_directory) = &self.config.artifact_directory {
+            Ok(self.root_dir.join(artifact_directory).join(filename))
         } else if real_file_name.starts_with(&self.pages_dir) {
-            return Err(BuildRequirePathError::ArtifactDirectoryExpected {
+            Err(BuildRequirePathError::ArtifactDirectoryExpected {
                 file_name: real_file_name.display().to_string(),
-            });
+            })
         } else {
-            real_file_name
+            Ok(real_file_name
                 .parent()
                 .unwrap()
                 .join("__generated__")
-                .join(filename)
-        };
-
-        if !path.exists() {
-
-            let mut yarn = Command::new("yarn");
-            yarn.current_dir(&self.root_dir);
-            yarn.arg("relay");
-            let compiler_output = yarn.output();
-            dbg!(&compiler_output);
-
-            Err(BuildRequirePathError::ArtifactDoesNotExist {
-                path: path.display().to_string(),
-            })
-        } else {
-            Ok(path)
+                .join(filename))
         }
     }
 
@@ -173,11 +156,6 @@ impl<'a> Relay<'a> {
                                 file_name
                             )
                         }
-                        BuildRequirePathError::ArtifactDoesNotExist { path } => format!(
-                            "The generated file `{}` does not exist on the file system. Please \
-                             run relay compiler or check your configuration.",
-                            path
-                        ),
                     };
 
                     HANDLER.with(|handler| {
@@ -194,17 +172,11 @@ impl<'a> Relay<'a> {
     }
 }
 
-fn run_relay_codegen_command() {
-    dbg!("Now we can actually run relay here");
-}
-
 pub fn relay<'a>(
     config: &'a Config,
     file_name: FileName,
     pages_dir: Option<PathBuf>,
 ) -> impl Fold + '_ {
-    run_relay_codegen_command();
-
     Relay {
         root_dir: std::env::current_dir().unwrap(),
         file_name,
